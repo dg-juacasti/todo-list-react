@@ -55,9 +55,9 @@ const TodoList: FC<TodoListProps> = ({ todoList }) => {
       <div>
         {searchTodoList.length > 0 ?
           searchTodoList.map((todo, index) =>
-            <Todo key={index} isEven={index % 2 === 0} todo={todo} />
+            <Todo key={index} isEven={index % 2 === 0} todo={todo} keyIndex={index} />
           ): todoList.map((todo, index) =>
-          <Todo key={index} isEven={index % 2 === 0} todo={todo} />
+          <Todo key={index} isEven={index % 2 === 0} todo={todo} keyIndex={index} />
         )}
       </div>
       <div>

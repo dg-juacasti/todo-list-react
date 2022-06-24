@@ -5,18 +5,21 @@ import { IconButton } from "../../atoms/icon-button"
 import Typography from "../../atoms/typography"
 import './index.scss'
 export interface TodoProps {
+  keyIndex: any
   todo: ITodoResponse
   isEven: boolean
   toggleComplete?(todo: ITodoResponse): void
   deleteTodo?(todo: ITodoResponse): void
 }
 
-export const Todo: FC<TodoProps> = ({ todo, isEven, toggleComplete = () => {} , deleteTodo = () => {} }) => {
+export const Todo: FC<TodoProps> = ({ keyIndex, todo, isEven, toggleComplete = () => {} , deleteTodo = () => {} }) => {
+
+  console.log(keyIndex)
 
   return (
     <div className={`todo-wrapper todo-wrapper-${isEven ? 'even' : 'odd'}`}>
       <div className={`todo-wrapper-element`}>
-        <input type="checkbox"/>
+        <input type="checkbox" value={keyIndex}/>
         <div className={`todo-wrapper-information`}>
           <Typography color={COLORS.textColor}>
             {todo.description}
