@@ -1,0 +1,34 @@
+.my-8 {
+  margin: 8px 0px;
+}
+.header {
+  display: flex;
+}
+.padding-button {
+  width: 240px;
+}
+.buttons {
+  text-align: -webkit-center;
+  margin-top: 20px;
+}
+@media only screen and (min-width: 600px) {
+  .buttons {
+    display: flex;
+    justify-content: center;
+    column-gap: 30%;
+  }
+}
+.buttons__porcent {
+  border: 1px solid #a8c3df;
+  width: 173px;
+  height: 46px;
+  border-radius: 3px;
+  padding-top: 6px;
+  margin-bottom: 14px;
+}
+
+@media only screen and (min-width: 600px) {
+  .buttons__porcent {
+    margin-bottom: 0px;
+  }
+}
