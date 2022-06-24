@@ -5,3 +5,10 @@
 .padding-button {
   width: 240px;
 }
+
+.search-button {
+  width: 100%;
+  display: grid;
+  column-gap: 10px;
+  grid-template-columns: auto 40px;
+}

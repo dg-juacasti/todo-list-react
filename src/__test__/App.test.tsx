@@ -89,8 +89,35 @@ describe('TodoList App tests', () => {
    * 
    * Probar el filtro de las tareas por descripcion
   */
-  xit('Should filter the todo list by description', async () => {
-
+  it('Should filter the todo list by description', async () => {
+    jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve(
+      {
+        data: {
+          data: [
+            {
+              description: 'Test',
+              finish_at: new Date().toString(),
+              id: 1,
+              id_author: 1,
+              status: 0
+            },
+            {
+              description: 'Test 3',
+              finish_at: new Date().toString(),
+              id: 2,
+              id_author: 1,
+              status: 0
+            }
+          ]
+        }
+      }));
+    render(<App />)
+    const input = screen.getByPlaceholderText('Buscar tareas')
+    await userEvent.keyboard('Enter')
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+    })
+    expect(screen.getByText(/Test 3/)).toBeInTheDocument()
   })
 
   /**
