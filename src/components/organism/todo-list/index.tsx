@@ -34,10 +34,13 @@ const TodoList: FC<TodoListProps> = ({ todoList }) => {
 
   return (
     <>
+    <div className='flex-search'>
+    <input placeholder='Buscar Tarea' className='input' value={valSearch} onChange={handleOnChange} />
       <div className='my-8'>
-        <input placeholder='Buscar Tarea' value={valSearch} onChange={handleOnChange} />
         <Button onClick={goToCreate} ><i className="fa-solid fa-plus"></i></Button>
       </div>
+    </div>
+    
       <div>
         {todoList.filter((val) => {
           return valSearch === "" ? val : val.description.toLowerCase().includes(valSearch.toLowerCase())? val : ""
