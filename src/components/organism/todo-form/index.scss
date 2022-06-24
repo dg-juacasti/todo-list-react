@@ -1,0 +1,19 @@
+.todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 540px;
+
+  &-imput-container {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  &-button-container {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    justify-content: flex-end;
+  }
+}
