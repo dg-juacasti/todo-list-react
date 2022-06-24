@@ -5,3 +5,13 @@
 .padding-button {
   width: 240px;
 }
+
+.note {
+  margin: 1rem;
+  text-align: center;
+  color: #7acdf5;
+}
+.note .fas {
+  margin-bottom: 0.5rem;
+  color: #2689b9;
+}

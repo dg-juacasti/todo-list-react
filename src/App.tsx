@@ -27,6 +27,10 @@ const App = () => {
     // eslint-disable-next-line
   }, [])
 
+  const search = (value: string) => {
+    const list = todosList.filter((item: ITodoResponse) => item.description.toLocaleLowerCase().indexOf(value.toLocaleLowerCase()) > -1);
+    setTodos(list);
+  }
   return (
     <div className="app-container">
       <Typography align='center' fontSize='40' color={COLORS.textColor} lineHeight='48' className='title'>
@@ -35,7 +39,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/">
-            <TodoList todoList={[...todos]}></TodoList>
+            <TodoList todoList={[...todos]} onSearch={search}></TodoList>
           </Route>
           <Route path="/create">
             <TodoForm ></TodoForm>

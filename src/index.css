@@ -19,3 +19,14 @@ body {
 .my-32 {
   margin: 32px 0px;
 }
+
+.flex {
+  display: flex;
+}
+
+
+.w-full {
+  width: 100%;
+}
+
+.ml-1 { margin-left: 1rem; }
