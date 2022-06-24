@@ -1,49 +1,65 @@
-import Typography from "./components/atoms/typography";
-import { COLORS } from "./shared/theme/colors";
-import TodoForm from "./components/organism/todo-form";
-import TodoList from "./components/organism/todo-list";
-import { ITodoResponse } from "./models";
-import { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
-import { useList } from "./hooks/useLists";
+import { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './App.css'
+import Typography from './components/atoms/typography'
+import TodoForm from './components/organism/todo-form'
+import TodoList from './components/organism/todo-list'
+import { useList } from './hooks/useLists'
+import { ITodoResponse } from './models'
+import { COLORS } from './shared/theme/colors'
 
 const App = () => {
-
-  const { todos: todosList, refetch } = useList()
+  const { todos: todosList, refetch, loadingTodos } = useList()
 
   const [todos, setTodos] = useState<ITodoResponse[]>([])
+  const [selectedTodo, setSelectedTodo] = useState<ITodoResponse>()
 
   useEffect(() => {
     setTodos(todosList)
-  }, [todosList])
+  }, [todosList, loadingTodos])
 
   useEffect(() => {
-    refetch()
-    // eslint-disable-next-line
+    const execute = async () => {
+      await refetch()
+    }
+    execute()
   }, [])
+
+  const addTodo = (newTodo: ITodoResponse) => {
+    const auxTodos = [...todos]
+    auxTodos.push(newTodo)
+    setTodos(auxTodos)
+  }
 
   return (
     <div className="app-container">
-      <Typography align='center' fontSize='40' color={COLORS.textColor} lineHeight='48' className='title'>
+      <Typography
+        align="center"
+        fontSize="40"
+        color={COLORS.textColor}
+        lineHeight="48"
+        className="title"
+      >
         Todo List
       </Typography>
       <Router>
         <Switch>
           <Route exact path="/">
-            <TodoList todoList={[...todos]}></TodoList>
+            <TodoList
+              todoList={todos}
+              onSelect={(todo: ITodoResponse) => setSelectedTodo(todo)}
+            ></TodoList>
           </Route>
           <Route path="/create">
-            <TodoForm ></TodoForm>
+            <TodoForm onCreate={(todo: ITodoResponse) => addTodo(todo)}></TodoForm>
+          </Route>
+          <Route path="/edit">
+            <TodoForm todoEdit={selectedTodo}></TodoForm>
           </Route>
         </Switch>
       </Router>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
