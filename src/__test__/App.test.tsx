@@ -69,6 +69,9 @@ describe('TodoList App tests', () => {
     );
     screen.getByText('Descripción es requerida');
     screen.getByText('Fecha límite es requerida');
+    const input = screen.getByPlaceholderText('Descripción') as HTMLInputElement
+    fireEvent.change(input, {target: {value: 'Prueba'}})
+    expect(screen.queryByText('Descripción es requerida')).not.toBeInTheDocument()
   })
 
   it('Should update a todo, description and date', async () => {

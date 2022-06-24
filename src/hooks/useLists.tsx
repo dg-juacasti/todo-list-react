@@ -42,13 +42,13 @@ export const useList = () => {
     return returnedTodo
   }
 
-  const deleteTodo = (todo: ITodoResponse) => {
-    axios.delete(`${BASE_URL}${todo.id}`)
-    .then(res => {
-      console.log(res);
-      if(res.status === 200) refetch()
-    })
+  const updateTodo = (todo: ITodoResponse) => {
+    axios.put(`${BASE_URL}${todo.id}`, {...todo, id_author: AUTHOR_ID})
   }
 
-  return { todos, refetch, postTodo, deleteTodo}
+  const deleteTodo = (todo: ITodoResponse) => {
+    axios.delete(`${BASE_URL}${todo.id}`)
+  }
+
+  return { todos, refetch, postTodo, deleteTodo, updateTodo}
 }

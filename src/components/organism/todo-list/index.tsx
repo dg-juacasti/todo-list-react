@@ -9,13 +9,14 @@ import Typography from '../../atoms/typography'
 import { Todo } from '../../molecules/todo'
 import './index.css'
 export interface TodoListProps {
-  todoList: ITodoResponse[]
+  todoList: ITodoResponse[],
+  setTodoToUpdate?(): void
 }
 
 const TodoList: FC<TodoListProps> = ({ todoList }) => {
 
   const history = useHistory()
-  const {deleteTodo} = useList()
+  const {deleteTodo, updateTodo} = useList()
   const [searchText, setSearchText] = useState('')
   const [showOnlyNotCompleted, setShowOnlyNotCompleted] = useState(false)
 
@@ -47,7 +48,7 @@ const TodoList: FC<TodoListProps> = ({ todoList }) => {
       </div>
       <div>
         {filters(todoList).map((todo, index) =>
-          <Todo key={index} isEven={index % 2 === 0} todo={todo} deleteTodo={deleteTodo} />
+          <Todo key={index} isEven={index % 2 === 0} todo={todo} deleteTodo={deleteTodo} toggleComplete={updateTodo}/>
         )}
         {filters(todoList).length === 0 && <div className=''>
           <i style={{fontSize:24, color:COLORS.textColor, paddingBottom:12}} className='fa-solid fa-circle-info'></i>
