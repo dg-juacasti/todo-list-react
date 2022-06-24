@@ -1,0 +1,27 @@
+@use "../../../_theme.scss" as theme;
+
+.button {
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: theme.$secondaryColor;
+  color: theme.$white;
+  padding: 14px;
+  border-radius: 4px;
+
+  &-primary {
+    background-color:theme.$secondaryColor;
+    color: theme.$white;
+  }
+
+  &-secondary {
+    background-color: theme.$oddColor;
+    color: theme.$black;
+  }
+
+  &:hover {
+    filter: opacity(0.8);
+  }
+}
