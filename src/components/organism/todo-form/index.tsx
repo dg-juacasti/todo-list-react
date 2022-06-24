@@ -5,7 +5,8 @@ import { Button } from "../../atoms/button";
 import { Input } from "../../atoms/input";
 import Typography from "../../atoms/typography";
 import "./index.scss";
-import { useAppDispatch } from "../../../hooks/useDispatch";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { useHistory } from "react-router-dom";
 
 const TodoForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +18,12 @@ const TodoForm: React.FC = () => {
     }));
   };
 
+  const history = useHistory();
+
+  const goToHome = () => {
+    history.push("/");
+  };
+
   const handleSubmit = () => {
     const todoInputs = {
       description: todo.description,
@@ -25,11 +32,9 @@ const TodoForm: React.FC = () => {
       status: todo.status,
     };
     dispatch(createAction(todoInputs));
+    setTodo({ description: "", finish_at: "", status: 0 });
+    goToHome();
   };
-
-  useEffect(() => {
-    console.log({ todo });
-  }, [todo]);
 
   return (
     <div className="todo-form">

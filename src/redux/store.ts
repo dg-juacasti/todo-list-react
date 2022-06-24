@@ -8,6 +8,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { ThunkDispatch } from "redux-thunk";
 import thunk from "redux-thunk";
 import todoReducer from "./to-dos";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 const rootReducer = combineReducers({
   todos: todoReducer,
@@ -23,5 +24,9 @@ export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 // export type AppDispatch = typeof store.dispatch | ThunkDispatch<RootState, unknown, AnyAction>;
 export type AppDispatch = ThunkDispatch<RootState, unknown, AnyAction>;
+
+// Use throughout your app instead of plain `useDispatch` and `useSelector`
+
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export default store;

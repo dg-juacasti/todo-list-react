@@ -11,14 +11,10 @@ const DELETE = "todo/delete";
 const FAILURE = "todo/failure";
 
 interface GetAction extends Action<typeof GET> {
-  payload: {
-    todo: ITodoResponse;
-  };
+  payload: ITodoResponse[];
 }
 interface CreateAction extends Action<typeof CREATE> {
-  payload: {
-    todo: ITodoResponse;
-  };
+  payload: ITodoResponse;
 }
 
 interface UpdateAction extends Action<typeof UPDATE> {
@@ -28,9 +24,7 @@ interface UpdateAction extends Action<typeof UPDATE> {
 }
 
 interface DeleteAction extends Action<typeof DELETE> {
-  payload: {
-    todo: ITodoResponse;
-  };
+  payload: ITodoResponse["id"];
 }
 
 interface FailureAction extends Action<typeof FAILURE> {}
@@ -47,6 +41,12 @@ export const GetAction =
     }
   };
 
+export const getAllTodos =
+  (todosList: ITodoResponse[]): ThunkAction<void, RootState, unknown, GetAction> =>
+  dispatch => {
+    dispatch({ type: GET, payload: todosList });
+  };
+
 export const createAction =
   (todo: ITodoResponse): ThunkAction<void, RootState, unknown, CreateAction | FailureAction> =>
   async (dispatch, getState) => {
@@ -59,8 +59,19 @@ export const createAction =
         })
         .then(res => {
           dispatch({ type: CREATE, payload: res.data });
-          console.log({ res: res.data });
         });
+    } catch (error) {
+      dispatch({ type: FAILURE });
+    }
+  };
+
+export const DeleteAction =
+  (id: ITodoResponse["id"]): ThunkAction<void, RootState, unknown, DeleteAction | FailureAction> =>
+  async (dispatch, getState) => {
+    try {
+      return axios.delete(`https://bp-todolist.herokuapp.com/${id}`).then(res => {
+        dispatch({ type: DELETE, payload: id });
+      });
     } catch (error) {
       dispatch({ type: FAILURE });
     }
@@ -74,7 +85,10 @@ const initialState: TodoState = {
   todos: [],
 };
 
-const todoReducer = (state: TodoState = initialState, action: CreateAction | GetAction) => {
+const todoReducer = (
+  state: TodoState = initialState,
+  action: CreateAction | GetAction | DeleteAction
+) => {
   switch (action.type) {
     case CREATE:
       return {
@@ -84,8 +98,15 @@ const todoReducer = (state: TodoState = initialState, action: CreateAction | Get
     case GET:
       return {
         ...state,
-        todos: [...state.todos, action.payload],
+        todos: action.payload,
       };
+    case DELETE: {
+      const newTodos = state.todos.filter(todo => todo.id == action.payload);
+      return {
+        ...state,
+        todos: [...newTodos],
+      };
+    }
 
     default:
       return state;
