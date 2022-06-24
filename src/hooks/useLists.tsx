@@ -12,6 +12,7 @@ export const useList = () => {
   const refetch = () => {
     axios.get(`${BASE_URL}?id_author=${AUTHOR_ID}`)
       .then(res => {
+          console.log({res});
         const data = res.data
         setTodos((data as any).data.map((todo: ITodoResponse): ITodoResponse => ({
           id: todo.id,
@@ -26,6 +27,7 @@ export const useList = () => {
       return new Promise((resolve, reject) => {
           axios.get(`${BASE_URL}?id_author=${AUTHOR_ID}`)
               .then(res => {
+                  console.log(res);
                   const {data} = res.data
                   const item = data.filter((aux: any) => aux.id == id);
 
@@ -41,11 +43,15 @@ export const useList = () => {
 
   const create = (todo: ITodoResponse) => {
       return new Promise((resolve, reject) => {
+          console.log('create axios')
           axios.post(`${BASE_URL}?id_author=${AUTHOR_ID}`, {...{id_author: AUTHOR_ID}, ...todo})
               .then(res => {
                   setTodo(formatTodo(res.data.data));
                   resolve(formatTodo(res.data.data));
               }).catch((error) => reject(error))
+              .finally(() => {
+                  console.log('fin')
+              })
       })
   }
 

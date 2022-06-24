@@ -9,7 +9,7 @@ import {useList} from "../../../hooks/useLists";
 
 interface TodoFormProps {
   todoEdit?: ITodoResponse
-  onUpdate?(): void
+  onUpdate?(action: 'create' | 'update'): void
 }
 const TodoForm: FC<TodoFormProps> = ({onUpdate, todoEdit}) => {
 
@@ -23,7 +23,9 @@ const TodoForm: FC<TodoFormProps> = ({onUpdate, todoEdit}) => {
   const [errorDate, setErrorDate] = useState<string>('')
 
   useEffect(() => {
-    console.log('Param', id);
+    if (!id) {
+      return ;
+    }
     find(id)
         .then(todo => {
           setTodoForm(todo);
@@ -39,6 +41,7 @@ const TodoForm: FC<TodoFormProps> = ({onUpdate, todoEdit}) => {
 
   }, [id])
   const handleOnChange = (property: 'description' | 'finish_at') => (value: string) => {
+    console.log(value)
     setTodoForm(current => ({
       ...current,
       [property]: value
@@ -46,18 +49,21 @@ const TodoForm: FC<TodoFormProps> = ({onUpdate, todoEdit}) => {
   }
 
 
-  const submit = () => {
+  const submit = async () => {
+    console.log('submit')
     if (!todoForm.description.length) {
       setErrorDescription('Descripción es requerida')
-      return
     } else {
       setErrorDescription('')
     }
     if (!todoForm.finish_at.length) {
-      setErrorDate('Error es requerido')
-      return
+      setErrorDate('La fecha limite es requerida')
     } else {
       setErrorDate('')
+    }
+
+    if (errorDescription || errorDate) {
+      return;
     }
 
     if (id) {
@@ -65,19 +71,16 @@ const TodoForm: FC<TodoFormProps> = ({onUpdate, todoEdit}) => {
       update(id, todoForm)
           .then(() => {
             if (typeof onUpdate === 'function') {
-              onUpdate()
+              onUpdate('update')
             }
             back();
           });
     } else {
       console.log('create');
-      create(todoForm)
-        .then(() => {
-          if (typeof onUpdate === 'function') {
-            onUpdate()
-          }
-          back();
-        });
+      await create(todoForm)
+      if (typeof onUpdate === 'function') {
+        onUpdate('create')
+      }
     }
     // onCreate(todoForm);
     // back();
@@ -92,13 +95,13 @@ const TodoForm: FC<TodoFormProps> = ({onUpdate, todoEdit}) => {
       <Typography>
         Descripción
       </Typography>
-      <Input placeholder='Descripción' initialValue={todoForm.description} onChange={handleOnChange('description')} errorMessage={errorDescription} />
+      <Input placeholder='Descripción' testid="input-description" initialValue={todoForm.description} onChange={handleOnChange('description')} errorMessage={errorDescription} />
     </div>
     <div className='todo-form-imput-container'>
       <Typography>
         Fecha limite
       </Typography>
-      <Input placeholder='Fecha limite' type='date' initialValue={todoForm.finish_at} onChange={handleOnChange('finish_at')} errorMessage={errorDate} />
+      <Input placeholder='Fecha limite' testid="input-date" type='date' initialValue={todoForm.finish_at} onChange={handleOnChange('finish_at')} errorMessage={errorDate} />
     </div>
     <div className='todo-form-button-container'>
       <Button onClick={back} variant="secondary"> Volver </Button>
