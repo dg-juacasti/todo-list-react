@@ -34,15 +34,34 @@ export const useList = () => {
 
                   setTodo(item[0]);
                   console.log({todo});
-                  resolve({
-                      description: item[0].description,
-                      finish_at: new Date(item[0].finish_at).toISOString().slice(0, 10),
-                      id: item[0].id,
-                      id_author: item[0].id_author,
-                      status: item[0].status,
-                  });
+                  resolve(formatTodo(item[0]));
               }).catch((error) => reject(error))
       })
   }
-  return { todos, todo, refetch, find }
+
+  const create = (todo: ITodoResponse) => {
+      return new Promise((resolve, reject) => {
+          axios.post(`${BASE_URL}?id_author=${AUTHOR_ID}`, {...{id_author: AUTHOR_ID}, ...todo})
+              .then(res => {
+                  setTodo(formatTodo(res.data.data));
+              }).catch((error) => reject(error))
+      })
+  }
+
+  const formatTodo = (todo: {
+      id: number;
+      description: string;
+      status: number;
+      id_author: number;
+      finish_at: Date;
+      created_at: Date;
+  }) => {
+      return {
+          id: todo.id,
+          status: todo.status,
+          description: todo.description,
+          finish_at: new Date(todo.finish_at).toISOString().slice(0, 10)
+      }
+  }
+  return { todos, todo, refetch, find, create }
 }

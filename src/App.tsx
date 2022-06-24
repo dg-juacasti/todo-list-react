@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
+  Route, useHistory,
 } from "react-router-dom";
 import { useList } from "./hooks/useLists";
 import './App.css'
@@ -31,6 +31,11 @@ const App = () => {
     const list = todosList.filter((item: ITodoResponse) => item.description.toLocaleLowerCase().indexOf(value.toLocaleLowerCase()) > -1);
     setTodos(list);
   }
+
+  const create = (todo: ITodoResponse) => {
+    console.log('create todo', todo);
+  }
+
   return (
     <div className="app-container">
       <Typography align='center' fontSize='40' color={COLORS.textColor} lineHeight='48' className='title'>
@@ -42,7 +47,10 @@ const App = () => {
             <TodoList todoList={[...todos]} onSearch={search}></TodoList>
           </Route>
           <Route path="/create">
-            <TodoForm ></TodoForm>
+            <TodoForm onCreate={create}></TodoForm>
+          </Route>
+          <Route path="/update/:id">
+            <TodoForm onCreate={create}></TodoForm>
           </Route>
         </Switch>
       </Router>
