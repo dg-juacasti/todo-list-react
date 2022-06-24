@@ -17,9 +17,11 @@ const App = () => {
   const { todos: todosList, refetch } = useList()
 
   const [todos, setTodos] = useState<ITodoResponse[]>([])
+  const [numberElements, setNumberElements] = useState(0)
 
   useEffect(() => {
     setTodos(todosList)
+    setNumberElements(todos.length)
   }, [todosList])
 
   useEffect(() => {

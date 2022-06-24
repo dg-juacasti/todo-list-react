@@ -1,8 +1,9 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { ITodoResponse } from '../../../models'
 import { Button } from '../../atoms/button'
 import { Input } from '../../atoms/input'
+import { CardComplete } from '../../molecules/card-completed'
 import { Todo } from '../../molecules/todo'
 import './index.css'
 export interface TodoListProps {
@@ -11,10 +12,17 @@ export interface TodoListProps {
 
 const TodoList: FC<TodoListProps> = ({ todoList }) => {
 
+  useEffect(() => {
+    const numberElementsCompleted = todoList.filter(value => value.status !== 0)
+    setNumberElementsCompleted(numberElementsCompleted.length)
+  }, [])
+  
+
   const history = useHistory()
 
   const [search, setSearch] = useState('')
   const [searchTodoList, setSearchTodoList] = useState<ITodoResponse[]>([])
+  const [numberElementsCompleted, setNumberElementsCompleted] = useState(0)
 
   const handleOnChange = (value: string) => {
     setSearch(value)
@@ -49,6 +57,9 @@ const TodoList: FC<TodoListProps> = ({ todoList }) => {
           ): todoList.map((todo, index) =>
           <Todo key={index} isEven={index % 2 === 0} todo={todo} />
         )}
+      </div>
+      <div>
+        <CardComplete numberElements={todoList.length} numberElementsCompleted={numberElementsCompleted} />
       </div>
     </>
   )
