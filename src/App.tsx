@@ -15,12 +15,12 @@ import './App.css'
 const App = () => {
 
   const { todos: todosList, refetch } = useList()
-
   const [todos, setTodos] = useState<ITodoResponse[]>([])
 
   useEffect(() => {
     setTodos(todosList)
   }, [todosList])
+  
 
   useEffect(() => {
     refetch()
@@ -35,10 +35,10 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/">
-            <TodoList todoList={[...todos]}></TodoList>
+            <TodoList todoList={[...todos]} ></TodoList>
           </Route>
           <Route path="/create">
-            <TodoForm ></TodoForm>
+            <TodoForm></TodoForm>
           </Route>
         </Switch>
       </Router>

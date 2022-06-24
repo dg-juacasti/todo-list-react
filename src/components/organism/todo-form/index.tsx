@@ -13,8 +13,8 @@ export interface TodoFormProps {
 
 const TodoForm: FC<TodoFormProps> = ({ initialTodo = { description: '', finish_at: '', status: 0 } }) => {
 
-  const { postTodo } = useList()
-  const [todo, setTodo] = useState<ITodoResponse>(initialTodo)
+  const { postTodo, refetch, updateTodo } = useList()
+  const [todo, setTodo] = useState<ITodoResponse>({...initialTodo})
   const [showDescriptionAlert, setShowDescriptionAlert] = useState(false);
   const [showDateAlert, setShowDateAlert] = useState(false);
   const [showCreatedMessage, setShowCreatedMessage] = useState(false);
@@ -35,11 +35,17 @@ const TodoForm: FC<TodoFormProps> = ({ initialTodo = { description: '', finish_a
   }, [todo.finish_at])
 
   const onAddClick = async () => {
-    if(todo.description !== '' && todo.finish_at !== '') {
-      const data = await postTodo(todo)
-      console.log(data);
-      setShowCreatedMessage(data.id !== 0)
-      setShowNotCreatedMessage(data.id === 0)
+    if(initialTodo.id === 0) {
+      if(todo.description !== '' && todo.finish_at !== '') {
+        const data = await postTodo(todo)
+        setShowCreatedMessage(data.id !== 0)
+        setShowNotCreatedMessage(data.id === 0)
+      }
+    } else {
+      if(todo.description !== '' && todo.finish_at !== '') {
+        updateTodo(todo)
+        setShowCreatedMessage(true)
+      }
     }
   }
 
@@ -63,13 +69,13 @@ const TodoForm: FC<TodoFormProps> = ({ initialTodo = { description: '', finish_a
       </Typography>}
     </div>
     <div className='todo-form-button-container'>
-      <Button onClick={onAddClick}>Agregar</Button>
+      <Button onClick={onAddClick}>{initialTodo.id !== 0 ? 'Actualizar' : 'Agregar'}</Button>
     </div>
     {showCreatedMessage && <Typography color={COLORS.progress}>
-      Tarea creada
+      Tarea {initialTodo.id !== 0 ? 'actualizada' : 'creada'}
     </Typography>}
     {showNotCreatedMessage && <Typography color={COLORS.error}>
-      Error al crear
+      Error al {initialTodo.id !== 0 ? 'actualizar' : 'crear'}
     </Typography>}
   </div>
 }

@@ -1,7 +1,6 @@
-import { render, screen, act, fireEvent, getByText } from "@testing-library/react"
+import { render, screen, act, fireEvent } from "@testing-library/react"
 import App from "../App"
 import axios from "axios";
-import { MemoryRouter } from "react-router-dom";
 import TodoForm from "../components/organism/todo-form";
 
 describe('TodoList App tests', () => {
@@ -89,6 +88,7 @@ describe('TodoList App tests', () => {
    * el formulario no tenga la descripción y la fecha ingresada 
   */
   it('Should update the todo status', async () => {
+
   })
 
   it('Should show an message when the todo list is empty', async () => {

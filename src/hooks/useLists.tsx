@@ -44,10 +44,11 @@ export const useList = () => {
 
   const updateTodo = (todo: ITodoResponse) => {
     axios.put(`${BASE_URL}${todo.id}`, {...todo, id_author: AUTHOR_ID})
+    .then(() => {refetch()})
   }
 
   const deleteTodo = (todo: ITodoResponse) => {
-    axios.delete(`${BASE_URL}${todo.id}`)
+    axios.delete(`${BASE_URL}${todo.id}`).then(() => {refetch()})
   }
 
   return { todos, refetch, postTodo, deleteTodo, updateTodo}

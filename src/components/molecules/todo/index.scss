@@ -1,12 +1,6 @@
 @use "../../../_theme.scss" as theme;
 
-.todo-wrapper {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 12px;
-  
+.todo-wrapper-with-form {
 
   &-even {
     background-color: theme.$evenColor;
@@ -15,6 +9,15 @@
   &-odd {
     background-color: theme.$oddColor;
   }
+  
+}
+
+.todo-wrapper {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 12px;
 
   &-element {
     display: flex;

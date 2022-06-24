@@ -9,8 +9,7 @@ import Typography from '../../atoms/typography'
 import { Todo } from '../../molecules/todo'
 import './index.css'
 export interface TodoListProps {
-  todoList: ITodoResponse[],
-  setTodoToUpdate?(): void
+  todoList: ITodoResponse[]
 }
 
 const TodoList: FC<TodoListProps> = ({ todoList }) => {
@@ -20,7 +19,7 @@ const TodoList: FC<TodoListProps> = ({ todoList }) => {
   const [searchText, setSearchText] = useState('')
   const [showOnlyNotCompleted, setShowOnlyNotCompleted] = useState(false)
 
-  const goToCreate = () => {
+  const goToCreate = (todo?:ITodoResponse) => {
     history.push('/create')
   }
 
