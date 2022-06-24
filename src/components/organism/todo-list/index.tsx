@@ -12,6 +12,8 @@ export interface TodoListProps {
 
 const TodoList: FC<TodoListProps> = ({ todoList }) => {
 
+  console.log(todoList)
+
   useEffect(() => {
     const numberElementsCompleted = todoList.filter(value => value.status !== 0)
     setNumberElementsCompleted(numberElementsCompleted.length)
