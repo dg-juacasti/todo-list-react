@@ -2,6 +2,11 @@
   margin: 8px 0px;
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
 .padding-button {
   width: 240px;
 }

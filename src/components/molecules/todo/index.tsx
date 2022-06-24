@@ -27,8 +27,12 @@ export const Todo: FC<TodoProps> = ({ todo, isEven, toggleComplete = () => {} , 
         </div>
       </div>
       <div className={`todo-wrapper-information`}>
-        <IconButton className="fa-solid fa-pencil"></IconButton>
-        <IconButton className="fa-solid fa-trash-can" ></IconButton>
+        <IconButton className="fa-solid fa-pencil" onClick={() => {
+          toggleComplete(todo)
+        }}></IconButton>
+        <IconButton className="fa-solid fa-trash-can" onClick={() => {
+          deleteTodo(todo)
+        }}></IconButton>
       </div>
     </div>
   )
