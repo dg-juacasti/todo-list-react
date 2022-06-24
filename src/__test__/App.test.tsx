@@ -1,6 +1,7 @@
-import { render, screen, act } from "@testing-library/react"
+import { render, screen, act, waitFor, fireEvent } from "@testing-library/react"
 import App from "../App"
 import axios from "axios";
+import TodoList from "../components/organism/todo-list";
 
 describe('TodoList App tests', () => {
 
@@ -35,8 +36,8 @@ describe('TodoList App tests', () => {
     screen.getByText('Test 3')
   })
 
-  it('Should create a new todo', async () => {
-    
+  it('Should empty List Todo', async () => {
+  
   })
 
    /**
@@ -68,7 +69,17 @@ describe('TodoList App tests', () => {
   })
 
   it('Should show an message when  the todo list is empty  ', async () => {
-    
+    const  data:any[]=[]
+    const setTodos=jest.fn()
+    jest.spyOn(axios, 'get').mockImplementation(() => Promise.resolve(
+      {
+        data: {
+          data: [
+                ]
+        }
+      }));
+    render(<TodoList todoList={data} setTodos={setTodos} />)
+     screen.getByText('No tiene tareas registradas')
   })
 
    /**

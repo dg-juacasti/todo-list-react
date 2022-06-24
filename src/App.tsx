@@ -4,10 +4,12 @@ import TodoForm from "./components/organism/todo-form";
 import TodoList from "./components/organism/todo-list";
 import { ITodoResponse } from "./models";
 import { useEffect, useState } from "react";
+
 import {
   BrowserRouter as Router,
   Switch,
   Route,
+  useHistory,
 } from "react-router-dom";
 import { useList } from "./hooks/useLists";
 import './App.css'
@@ -17,6 +19,7 @@ const App = () => {
   const { todos: todosList, refetch } = useList()
 
   const [todos, setTodos] = useState<ITodoResponse[]>([])
+  const history = useHistory()
 
   useEffect(() => {
     setTodos(todosList)
@@ -27,6 +30,10 @@ const App = () => {
     // eslint-disable-next-line
   }, [])
 
+  const goToCreate = () => {
+    history.push('/create')
+  }
+
   return (
     <div className="app-container">
       <Typography align='center' fontSize='40' color={COLORS.textColor} lineHeight='48' className='title'>
@@ -35,10 +42,10 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/">
-            <TodoList todoList={[...todos]}></TodoList>
+            <TodoList todoList={[...todos]} setTodos={setTodos} ></TodoList>
           </Route>
           <Route path="/create">
-            <TodoForm ></TodoForm>
+            <TodoForm setTodos={setTodos} ></TodoForm>
           </Route>
         </Switch>
       </Router>

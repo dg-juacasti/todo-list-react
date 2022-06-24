@@ -1,5 +1,15 @@
 .my-8 {
   margin: 8px 0px;
+  display: flex;
+  /* gap: 8px; */
+}
+
+.form_input{
+  width: 90%;
+}
+
+.button_plus{
+  width: 10%;
 }
 
 .padding-button {

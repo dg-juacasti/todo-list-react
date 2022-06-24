@@ -8,11 +8,13 @@ export interface TodoProps {
   todo: ITodoResponse
   isEven: boolean
   toggleComplete?(todo: ITodoResponse): void
-  deleteTodo?(todo: ITodoResponse): void
+  // deleteTodo?(todo: ITodoResponse): void
+  deleteTodo?: any
 }
 
 export const Todo: FC<TodoProps> = ({ todo, isEven, toggleComplete = () => {} , deleteTodo = () => {} }) => {
 
+ 
   return (
     <div className={`todo-wrapper todo-wrapper-${isEven ? 'even' : 'odd'}`}>
       <div className={`todo-wrapper-element`}>
@@ -28,7 +30,7 @@ export const Todo: FC<TodoProps> = ({ todo, isEven, toggleComplete = () => {} , 
       </div>
       <div className={`todo-wrapper-information`}>
         <IconButton className="fa-solid fa-pencil"></IconButton>
-        <IconButton className="fa-solid fa-trash-can" ></IconButton>
+        <IconButton onClick={deleteTodo} className="fa-solid fa-trash-can" ></IconButton>
       </div>
     </div>
   )
