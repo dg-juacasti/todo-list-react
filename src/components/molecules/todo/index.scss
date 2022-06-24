@@ -27,4 +27,16 @@
     flex-direction: row;
     gap: 1rem;
   }
+  &-description {
+    flex-direction: column;
+  }
+}
+
+
+@media screen and (min-width: 481px) {
+  .todo-wrapper {
+    &-description {
+      flex-direction: row;
+    }
+  }
 }
