@@ -28,12 +28,12 @@ export const useList = () => {
               .then(res => {
                   const {data} = res.data
                   const item = data.filter((aux: any) => aux.id == id);
+
+                  console.log(item)
                   if (!item.length) {
                       return reject();
                   }
-
-                  setTodo(item[0]);
-                  console.log({todo});
+                  setTodo(formatTodo(item[0]));
                   resolve(formatTodo(item[0]));
               }).catch((error) => reject(error))
       })
@@ -48,6 +48,21 @@ export const useList = () => {
               }).catch((error) => reject(error))
       })
   }
+
+    const update = (id: number, todo: ITodoResponse) => {
+        return new Promise((resolve, reject) => {
+            axios.put(`${BASE_URL}${id}`, {
+                description: todo.description,
+                status: todo.status,
+                id_author: AUTHOR_ID,
+                finish_at: todo.finish_at,
+            })
+                .then(res => {
+                    setTodo(formatTodo(res.data.data));
+                    resolve(formatTodo(res.data.data));
+                }).catch((error) => reject(error))
+        })
+    }
 
     const remove = (id: number): Promise<void> => {
         return new Promise((resolve, reject) => {
@@ -74,5 +89,5 @@ export const useList = () => {
           finish_at: new Date(todo.finish_at).toISOString().slice(0, 10)
       }
   }
-  return { setTodos, todos, todo, refetch, find, create, remove }
+  return { todos, todo, refetch, find, create, remove, update }
 }

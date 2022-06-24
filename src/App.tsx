@@ -33,10 +33,6 @@ const App = () => {
     setTodos(list);
   }
 
-  const create = (todo: ITodoResponse) => {
-    console.log('create todo', todo);
-  }
-
   return (
     <div className="app-container">
       <Typography align='center' fontSize='40' color={COLORS.textColor} lineHeight='48' className='title'>
@@ -48,10 +44,10 @@ const App = () => {
             <TodoList todoList={[...todos]} onSearch={search} onUpdate={refetch}></TodoList>
           </Route>
           <Route path="/create">
-            <TodoForm onCreate={create}></TodoForm>
+            <TodoForm onUpdate={refetch}></TodoForm>
           </Route>
           <Route path="/update/:id">
-            <TodoForm onCreate={create}></TodoForm>
+            <TodoForm onUpdate={refetch}></TodoForm>
           </Route>
         </Switch>
       </Router>
