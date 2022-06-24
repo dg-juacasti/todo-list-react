@@ -6,6 +6,7 @@ import { Button } from "../../atoms/button";
 import { Todo } from "../../molecules/todo";
 import "./index.css";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import store from "../../../redux/store";
 export interface TodoListProps {
   todoList: ITodoResponse[];
 }
@@ -20,7 +21,7 @@ const TodoList: FC<TodoListProps> = ({ todoList }) => {
 
   useEffect(() => {
     dispatch(getAllTodos(todoList));
-  });
+  }, [store.getState()]);
 
   return (
     <>

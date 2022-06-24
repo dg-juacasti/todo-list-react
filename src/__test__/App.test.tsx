@@ -8,7 +8,7 @@ import TodoForm from "../components/organism/todo-form";
 import { createAction } from "../redux/to-dos";
 
 describe("TodoList App tests", () => {
-  const todo: ITodoResponse = {
+  const todoÚnico: ITodoResponse = {
     description: "string",
     finish_at: "string",
     id: 1,
@@ -74,11 +74,11 @@ describe("TodoList App tests", () => {
         <App />
       </Provider>
     );
-    axios.post = jest.fn().mockImplementation(() => Promise.resolve({ data: todo }));
-    store.dispatch({ type: "todo/create", payload: todo });
+    axios.post = jest.fn().mockImplementation(() => Promise.resolve({ data: todoÚnico }));
+    store.dispatch({ type: "todo/create", payload: todoÚnico });
 
     const state = store.getState();
-    expect(state.todos).toEqual({ todos: [...extraTodos, todo] });
+    expect(state.todos).toEqual({ todos: [...extraTodos, todoÚnico] });
   });
 
   /**

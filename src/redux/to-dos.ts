@@ -18,9 +18,7 @@ interface CreateAction extends Action<typeof CREATE> {
 }
 
 interface UpdateAction extends Action<typeof UPDATE> {
-  payload: {
-    todo: ITodoResponse;
-  };
+  payload: ITodoResponse;
 }
 
 interface DeleteAction extends Action<typeof DELETE> {
@@ -77,6 +75,18 @@ export const DeleteAction =
     }
   };
 
+export const UpdateAction =
+  (todo: ITodoResponse): ThunkAction<void, RootState, unknown, UpdateAction | FailureAction> =>
+  async (dispatch, getState) => {
+    try {
+      return axios.delete(`https://bp-todolist.herokuapp.com/${todo.id}`).then(res => {
+        dispatch({ type: UPDATE, payload: todo });
+      });
+    } catch (error) {
+      dispatch({ type: FAILURE });
+    }
+  };
+
 interface TodoState {
   todos: ITodoResponse[];
 }
@@ -87,7 +97,7 @@ const initialState: TodoState = {
 
 const todoReducer = (
   state: TodoState = initialState,
-  action: CreateAction | GetAction | DeleteAction
+  action: CreateAction | GetAction | DeleteAction | UpdateAction
 ) => {
   switch (action.type) {
     case CREATE:
@@ -102,6 +112,22 @@ const todoReducer = (
       };
     case DELETE: {
       const newTodos = state.todos.filter(todo => todo.id == action.payload);
+      return {
+        ...state,
+        todos: [...newTodos],
+      };
+    }
+    case UPDATE: {
+      const newTodos = state.todos.map(todo =>
+        todo.id == action.payload.id
+          ? {
+              description: action.payload.description,
+              finish_at: action.payload.finish_at,
+              id: action.payload.id,
+              status: action.payload.status,
+            }
+          : todo
+      );
       return {
         ...state,
         todos: [...newTodos],

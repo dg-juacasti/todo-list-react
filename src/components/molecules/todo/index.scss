@@ -6,7 +6,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 14px 12px;
-  
 
   &-even {
     background-color: theme.$evenColor;
@@ -26,5 +25,13 @@
     display: flex;
     flex-direction: row;
     gap: 1rem;
+  }
+
+  &-normal {
+    text-decoration: normal;
+  }
+
+  &-line-through {
+    text-decoration: line-through;
   }
 }
