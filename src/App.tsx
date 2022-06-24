@@ -2,7 +2,6 @@ import Typography from "./components/atoms/typography";
 import { COLORS } from "./shared/theme/colors";
 import TodoForm from "./components/organism/todo-form";
 import TodoList from "./components/organism/todo-list";
-import { ITodoResponse } from "./models";
 import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
@@ -11,16 +10,11 @@ import {
 } from "react-router-dom";
 import { useList } from "./hooks/useLists";
 import './App.css'
+import { Todo } from "./components/molecules/todo";
 
 const App = () => {
 
-  const { todos: todosList, refetch } = useList()
-
-  const [todos, setTodos] = useState<ITodoResponse[]>([])
-
-  useEffect(() => {
-    setTodos(todosList)
-  }, [todosList])
+  const { refetch } = useList()
 
   useEffect(() => {
     refetch()
@@ -35,11 +29,11 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/">
-            <TodoList todoList={[...todos]}></TodoList>
+            <TodoList ></TodoList>
           </Route>
           <Route path="/create">
             <TodoForm ></TodoForm>
-          </Route>
+          </Route>          
         </Switch>
       </Router>
     </div>
