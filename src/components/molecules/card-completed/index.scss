@@ -1,0 +1,14 @@
+@use "../../../_theme.scss" as theme;
+
+.card {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    
+    &__body {
+        border: 1px solid theme.$black;
+        border-radius: 8px;
+        padding: 12px;
+
+    }
+}
