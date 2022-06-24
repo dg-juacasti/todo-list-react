@@ -1,0 +1,43 @@
+@use '../../../_theme.scss' as theme;
+
+.todo-wrapper {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 12px;
+
+  &-even {
+    background-color: theme.$evenColor;
+  }
+
+  &-odd {
+    background-color: theme.$oddColor;
+  }
+
+  &-element {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  &-information {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @media screen and (min-width: theme.$bp) {
+      flex-direction: row;
+    }
+  }
+
+  &-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
+}
+
+.completed {
+  text-decoration: line-through;
+}
