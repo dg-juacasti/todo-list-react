@@ -1,0 +1,13 @@
+.my-8 {
+  margin: 8px 0px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.padding-button {
+  width: 240px;
+}
+
+.empty-todo{
+  text-align: center;
+}
