@@ -69,7 +69,7 @@ const TodoForm: FC = () => {
     </div>
     <div className='todo-form-button-container'>
       <Button className='button-secondary' onClick={goToList}> Volver </Button>
-      <Button onClick={handleCreateNewTodo}> Agregar </Button>
+      <Button onClick={handleCreateNewTodo} id="addNewTodo"> Agregar </Button>
     </div>
   </div>
 }

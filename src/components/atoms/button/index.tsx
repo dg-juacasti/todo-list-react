@@ -10,7 +10,8 @@ export interface ButtonProps {
 }
 
 export const Button: FC<ButtonProps> = ({ id, width, className = '', onClick, children, variant = 'primary' }) => {
-  return <button id={id} className={`button button-${variant} ${className}`} style={{ width }} onClick={onClick}>
+  return <button id={id} className={`button button-${variant} ${className}`} style={{ width }} onClick={onClick}
+    data-testid={id}>
     {children}
   </button>
 
