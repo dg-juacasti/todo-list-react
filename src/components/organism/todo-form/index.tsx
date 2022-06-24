@@ -16,7 +16,7 @@ const TodoForm: FC<TodoFormProps> = ({onCreate, todoEdit}) => {
   const history = useHistory()
   // @ts-ignore
   let { id } = useParams();
-  const { find, create, todo } = useList()
+  const { find, create, todo, todos } = useList()
 
   const [todoForm, setTodoForm] = useState<ITodoResponse>({ description: '', finish_at: '', status: 0 })
   const [errorDescription, setErrorDescription] = useState<string>('')
@@ -62,13 +62,14 @@ const TodoForm: FC<TodoFormProps> = ({onCreate, todoEdit}) => {
     if (id) {
       console.log('update')
     } else {
+      console.log('create');
       create(todoForm)
         .then(() => {
           back();
         });
     }
     // onCreate(todoForm);
-    back();
+    // back();
   }
 
   const back = () => {

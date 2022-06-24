@@ -23,6 +23,7 @@ const App = () => {
   }, [todosList])
 
   useEffect(() => {
+    console.log('get todos');
     refetch()
     // eslint-disable-next-line
   }, [])
@@ -44,7 +45,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/">
-            <TodoList todoList={[...todos]} onSearch={search}></TodoList>
+            <TodoList todoList={[...todos]} onSearch={search} onUpdate={refetch}></TodoList>
           </Route>
           <Route path="/create">
             <TodoForm onCreate={create}></TodoForm>

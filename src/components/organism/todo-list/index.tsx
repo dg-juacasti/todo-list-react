@@ -5,19 +5,33 @@ import { Button } from '../../atoms/button'
 import { Todo } from '../../molecules/todo'
 import './index.css'
 import {Input} from "../../atoms/input";
+import {useList} from "../../../hooks/useLists";
 export interface TodoListProps {
     todoList: ITodoResponse[]
     onSearch?(value: string): void
-
+    onUpdate?(): void
 }
 
-const TodoList: FC<TodoListProps> = ({ todoList, onSearch }) => {
+const TodoList: FC<TodoListProps> = ({ todoList, onSearch, onUpdate }) => {
 
   const history = useHistory()
+    const { remove } = useList()
 
   const goToCreate = () => {
     history.push('/create')
   }
+
+  const deleteTodo = (todo: ITodoResponse) => {
+    if (!todo.id) {
+        return;
+    }
+    remove(todo.id).then(() => {
+        if (typeof onUpdate === 'function') {
+            console.log('update1')
+            onUpdate();
+        }
+    });
+}
 
 
 
@@ -33,7 +47,7 @@ const TodoList: FC<TodoListProps> = ({ todoList, onSearch }) => {
             <h3>No tienes tareas registradas</h3>
           </div>}
         {todoList.map((todo, index) =>
-          <Todo key={index} isEven={index % 2 === 0} todo={todo} />
+          <Todo key={index} isEven={index % 2 === 0} todo={todo} deleteTodo={deleteTodo} />
         )}
       </div>
     </>

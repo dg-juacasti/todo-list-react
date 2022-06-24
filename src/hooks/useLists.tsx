@@ -44,9 +44,20 @@ export const useList = () => {
           axios.post(`${BASE_URL}?id_author=${AUTHOR_ID}`, {...{id_author: AUTHOR_ID}, ...todo})
               .then(res => {
                   setTodo(formatTodo(res.data.data));
+                  resolve(formatTodo(res.data.data));
               }).catch((error) => reject(error))
       })
   }
+
+    const remove = (id: number): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            axios.delete(`${BASE_URL}${id}`)
+                .then(res => {
+                    console.log('delete', res.data);
+                    resolve();
+                }).catch((error) => reject(error))
+        })
+    }
 
   const formatTodo = (todo: {
       id: number;
@@ -63,5 +74,5 @@ export const useList = () => {
           finish_at: new Date(todo.finish_at).toISOString().slice(0, 10)
       }
   }
-  return { todos, todo, refetch, find, create }
+  return { setTodos, todos, todo, refetch, find, create, remove }
 }
