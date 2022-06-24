@@ -27,7 +27,12 @@ const App = () => {
 
   const addTodo = (newTodo: ITodoResponse) => {
     const auxTodos = [...todos]
-    auxTodos.push(newTodo)
+    auxTodos.push({
+      id: newTodo.id,
+      status: newTodo.status,
+      description: newTodo.description,
+      finish_at: new Date(newTodo.finish_at).toISOString().slice(0, 10),
+    })
     setTodos(auxTodos)
   }
 
