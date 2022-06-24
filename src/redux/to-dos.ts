@@ -59,6 +59,7 @@ export const createAction =
         })
         .then(res => {
           dispatch({ type: CREATE, payload: res.data });
+          console.log({ res: res.data });
         });
     } catch (error) {
       dispatch({ type: FAILURE });
