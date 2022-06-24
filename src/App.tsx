@@ -38,7 +38,7 @@ const App = () => {
             <TodoList todoList={[...todos]}></TodoList>
           </Route>
           <Route path="/create">
-            <TodoForm ></TodoForm>
+            <TodoForm></TodoForm>
           </Route>
         </Switch>
       </Router>
