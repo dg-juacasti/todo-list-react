@@ -10,6 +10,11 @@ const UPDATE = "todo/update";
 const DELETE = "todo/delete";
 const FAILURE = "todo/failure";
 
+interface GetAction extends Action<typeof GET> {
+  payload: {
+    todo: ITodoResponse;
+  };
+}
 interface CreateAction extends Action<typeof CREATE> {
   payload: {
     todo: ITodoResponse;
@@ -30,12 +35,24 @@ interface DeleteAction extends Action<typeof DELETE> {
 
 interface FailureAction extends Action<typeof FAILURE> {}
 
+export const GetAction =
+  (): ThunkAction<void, RootState, unknown, GetAction | FailureAction> =>
+  async (dispatch, getState) => {
+    try {
+      return axios.get(`https://bp-todolist.herokuapp.com/?id_author=48`).then(res => {
+        dispatch({ type: GET, payload: res.data });
+      });
+    } catch (error) {
+      dispatch({ type: FAILURE });
+    }
+  };
+
 export const createAction =
   (todo: ITodoResponse): ThunkAction<void, RootState, unknown, CreateAction | FailureAction> =>
   async (dispatch, getState) => {
     try {
-      const response = axios
-        .post(`https://bp-todolist.herokuapp.com/?id_author=1`, JSON.stringify(todo), {
+      return axios
+        .post(`https://bp-todolist.herokuapp.com/?id_author=48`, JSON.stringify(todo), {
           headers: {
             "Content-Type": "application/json",
           },
@@ -43,7 +60,9 @@ export const createAction =
         .then(res => {
           dispatch({ type: CREATE, payload: res.data });
         });
-    } catch (error) {}
+    } catch (error) {
+      dispatch({ type: FAILURE });
+    }
   };
 
 interface TodoState {
@@ -54,9 +73,14 @@ const initialState: TodoState = {
   todos: [],
 };
 
-const todoReducer = (state: TodoState = initialState, action: CreateAction) => {
+const todoReducer = (state: TodoState = initialState, action: CreateAction | GetAction) => {
   switch (action.type) {
     case CREATE:
+      return {
+        ...state,
+        todos: [...state.todos, action.payload],
+      };
+    case GET:
       return {
         ...state,
         todos: [...state.todos, action.payload],
