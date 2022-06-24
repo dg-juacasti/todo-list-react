@@ -4,6 +4,7 @@ import { COLORS } from "../../../shared/theme/colors"
 import { IconButton } from "../../atoms/icon-button"
 import Typography from "../../atoms/typography"
 import './index.scss'
+import {useHistory} from "react-router-dom";
 export interface TodoProps {
   todo: ITodoResponse
   isEven: boolean
@@ -13,6 +14,10 @@ export interface TodoProps {
 
 export const Todo: FC<TodoProps> = ({ todo, isEven, toggleComplete = () => {} , deleteTodo = () => {} }) => {
 
+    const history = useHistory()
+    const edit = () => {
+      history.push(`/update/${todo.id}`);
+    }
   return (
     <div className={`todo-wrapper todo-wrapper-${isEven ? 'even' : 'odd'}`}>
       <div className={`todo-wrapper-element`}>
@@ -27,8 +32,8 @@ export const Todo: FC<TodoProps> = ({ todo, isEven, toggleComplete = () => {} , 
         </div>
       </div>
       <div className={`todo-wrapper-information`}>
-        <IconButton className="fa-solid fa-pencil"></IconButton>
-        <IconButton className="fa-solid fa-trash-can" ></IconButton>
+        <IconButton className="fa-solid fa-pencil" onClick={edit}/>
+        <IconButton className="fa-solid fa-trash-can" />
       </div>
     </div>
   )

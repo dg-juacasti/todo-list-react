@@ -7,9 +7,10 @@ export interface InputProps {
   width?: string
   type?: string
   onChange?(value: any): void
+  errorMessage?: string
 }
 
-export const Input: FC<InputProps> = ({ initialValue = '', type = 'text', placeholder, width, onChange = () => { } }) => {
+export const Input: FC<InputProps> = ({ initialValue = '', type = 'text', placeholder, width, onChange = () => { }, errorMessage }) => {
 
   const [value, setValue] = useState(initialValue)
 
@@ -26,6 +27,9 @@ export const Input: FC<InputProps> = ({ initialValue = '', type = 'text', placeh
   return (
     <div style={{ width }}>
       <input type={type} placeholder={placeholder} value={value} className='input' onChange={handleOnChange}></input>
+      {errorMessage && <small className="text-danger">
+        {errorMessage}
+      </small>}
     </div>
   )
 
