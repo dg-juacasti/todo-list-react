@@ -11,4 +11,10 @@
     outline: 0px;
     border: 1px solid theme.$textColor1;
   }
+
+  &__error {
+    font-size: x-small;
+    color: red;
+    padding-top: 8px;
+  }
 }
