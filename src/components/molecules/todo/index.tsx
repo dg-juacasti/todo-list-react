@@ -1,4 +1,7 @@
+import axios from "axios"
 import { FC } from "react"
+import { useHistory } from "react-router-dom"
+import { AUTHOR_ID, BASE_URL } from "../../../constants/app"
 import { ITodoResponse } from "../../../models"
 import { COLORS } from "../../../shared/theme/colors"
 import { IconButton } from "../../atoms/icon-button"
@@ -12,11 +15,16 @@ export interface TodoProps {
 }
 
 export const Todo: FC<TodoProps> = ({ todo, isEven, toggleComplete = () => {} , deleteTodo = () => {} }) => {
+  const history = useHistory()
+  const editTodo = () => {
+    history.push(`/edit/${todo.id}`)
+  }
+
 
   return (
     <div className={`todo-wrapper todo-wrapper-${isEven ? 'even' : 'odd'}`}>
       <div className={`todo-wrapper-element`}>
-        <input type="checkbox"/>
+        <input type="checkbox" onClick={() =>toggleComplete(todo)} checked={todo.status===1}/>
         <div className={`todo-wrapper-information`}>
           <Typography color={COLORS.textColor}>
             {todo.description}
@@ -27,8 +35,8 @@ export const Todo: FC<TodoProps> = ({ todo, isEven, toggleComplete = () => {} , 
         </div>
       </div>
       <div className={`todo-wrapper-information`}>
-        <IconButton className="fa-solid fa-pencil"></IconButton>
-        <IconButton className="fa-solid fa-trash-can" ></IconButton>
+        <IconButton className="fa-solid fa-pencil" onClick={editTodo}></IconButton>
+        <IconButton className="fa-solid fa-trash-can"onClick={() =>deleteTodo(todo)} data-testid="deleteTodo"></IconButton>
       </div>
     </div>
   )

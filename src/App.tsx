@@ -35,9 +35,12 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/">
-            <TodoList todoList={[...todos]}></TodoList>
+            <TodoList todoList={[...todos]} setList={setTodos}></TodoList>
           </Route>
           <Route path="/create">
+            <TodoForm ></TodoForm>
+          </Route>
+          <Route path="/edit/:id">
             <TodoForm ></TodoForm>
           </Route>
         </Switch>
