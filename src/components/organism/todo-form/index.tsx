@@ -1,5 +1,4 @@
 import { FC, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import { AUTHOR_ID } from '../../../constants/app'
 import { useCreateTodo } from '../../../hooks/useCreateTodo'
 import { ITodoResponse } from '../../../models'
@@ -9,8 +8,6 @@ import Typography from '../../atoms/typography'
 import './index.scss'
 
 const TodoForm: FC = () => {
-
-  const history = useHistory()
 
   const [todoNew, setTodoNew] = useState<ITodoResponse>({ description: '', finish_at: '', status: 0, id_author: AUTHOR_ID })
   const handleOnChange = (property: 'description' | 'finish_at') => (value: string) => {
@@ -23,7 +20,7 @@ const TodoForm: FC = () => {
   const [validationDescription, setValidationDescription] = useState(false)
   const [validationDate, setValidationDate] = useState(false)
 
-  const { newResponse, refetchCreateTodo } = useCreateTodo()
+  const { refetchCreateTodo } = useCreateTodo()
 
   const goToList = () => {
     window.location.replace('/')
