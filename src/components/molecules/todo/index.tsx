@@ -26,7 +26,7 @@ export const Todo: FC<TodoProps> = ({ todo, isEven, toggleComplete = () => {} , 
           </Typography>
         </div>
       </div>
-      <div className={`todo-wrapper-information`}>
+      <div className={`todo-wrapper-information-boton`}>
         <IconButton className="fa-solid fa-pencil"></IconButton>
         <IconButton className="fa-solid fa-trash-can" ></IconButton>
       </div>
