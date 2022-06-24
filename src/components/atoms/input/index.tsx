@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react"
 import './index.scss'
 
 export interface InputProps {
+  id?:string
   initialValue?: string
   placeholder?: string
   width?: string
@@ -9,7 +10,7 @@ export interface InputProps {
   onChange?(value: any): void
 }
 
-export const Input: FC<InputProps> = ({ initialValue = '', type = 'text', placeholder, width, onChange = () => { } }) => {
+export const Input: FC<InputProps> = ({ id = '', initialValue = '', type = 'text', placeholder, width, onChange = () => { } }) => {
 
   const [value, setValue] = useState(initialValue)
 
@@ -25,7 +26,7 @@ export const Input: FC<InputProps> = ({ initialValue = '', type = 'text', placeh
 
   return (
     <div style={{ width }}>
-      <input type={type} placeholder={placeholder} value={value} className='input' onChange={handleOnChange}></input>
+      <input id={id} type={type} placeholder={placeholder} value={value} className='input' onChange={handleOnChange}></input>
     </div>
   )
 
