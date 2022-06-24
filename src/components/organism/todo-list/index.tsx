@@ -11,14 +11,31 @@ export interface TodoListProps {
   setList : any
 }
 
-const TodoList: FC<TodoListProps> = ({ todoList, setList= ()=>{}}) => {
-  
+const TodoList: FC<TodoListProps> = ({ todoList:firstList, setList= ()=>{}}) => {
+  const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const newlist = firstList.filter(element => element.description.includes(e.target.value ||''))
+    setTodoList(newlist)
+  }
+  const handleFilter = () => {
+    if(!filter){
+      const newlist = firstList.filter(element => element.status===1)
+      setFilter(!filter)
+      return setTodoList(newlist)}
+      setFilter(!filter)
+
+    setTodoList(firstList)
+  }
   const history = useHistory()
+  const [filter, setFilter] = useState (false)
   const [progress, setProgress] = useState(0)
+  const [todoList, setTodoList] = useState(firstList)
   useEffect(()=> {
     const completeTodos = todoList.filter(todo => todo.status===1)
     setProgress( Math.round(100*completeTodos.length/todoList.length))
   },[todoList])
+  useEffect(()=> {
+    setTodoList(firstList)
+  },[firstList])
   const goToCreate = () => {
     history.push('/create')
   }
@@ -34,7 +51,7 @@ const TodoList: FC<TodoListProps> = ({ todoList, setList= ()=>{}}) => {
       { headers: { "Content-type": "application/json; charset=UTF-8" } }
     );
     const newList = todoList.map( e => e.id===todo.id?{...todo,status:todo.status===1?0:1}:e)
-    setList(newList)
+    setTodoList(newList)
   }
   return (
     <>
@@ -43,6 +60,9 @@ const TodoList: FC<TodoListProps> = ({ todoList, setList= ()=>{}}) => {
         <span>
           Progreso: {progress}%
         </span>
+        <input type="text" onChange={e => handleSearch(e)}/>
+        <label htmlFor="filter">Filtrar completados</label>
+        <input type="checkbox" name="filter" id="filter" onChange={() => handleFilter()}/>
       </div>
       <div>
         {todoList.map((todo, index) =>
