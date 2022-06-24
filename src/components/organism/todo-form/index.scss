@@ -16,4 +16,11 @@
     gap: 1rem;
     justify-content: flex-end;
   }
+
+  &-error-text {
+    font-size: 10px;
+    color: red;
+    font-weight: 400;
+    text-align: left;
+  }
 }

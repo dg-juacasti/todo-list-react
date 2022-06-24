@@ -1,31 +1,24 @@
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Typography from "./components/atoms/typography";
 import { COLORS } from "./shared/theme/colors";
 import TodoForm from "./components/organism/todo-form";
 import TodoList from "./components/organism/todo-list";
-import { ITodoResponse } from "./models";
-import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
-import { useList } from "./hooks/useLists";
 import './App.css'
+import { ITodoResponse } from "./models";
 
 const App = () => {
 
-  const { todos: todosList, refetch } = useList()
+  const [initialValue, setinitialValue] = useState({ description: '', finish_at: '', status: 0 })
 
-  const [todos, setTodos] = useState<ITodoResponse[]>([])
-
-  useEffect(() => {
-    setTodos(todosList)
-  }, [todosList])
-
-  useEffect(() => {
-    refetch()
-    // eslint-disable-next-line
-  }, [])
+  const updateTodo = async (todo: ITodoResponse) => {
+    await setinitialValue(todo)
+  }
 
   return (
     <div className="app-container">
@@ -35,10 +28,13 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/">
-            <TodoList todoList={[...todos]}></TodoList>
+            <TodoList updateTodo={updateTodo}></TodoList>
           </Route>
           <Route path="/create">
-            <TodoForm ></TodoForm>
+            <TodoForm initialValue={{ description: '', finish_at: '', status: 0 }}></TodoForm>
+          </Route>
+          <Route path="/update">
+            <TodoForm initialValue={initialValue}></TodoForm>
           </Route>
         </Switch>
       </Router>

@@ -11,7 +11,7 @@ export const useList = () => {
   const refetch = () => {
     axios.get(`${BASE_URL}?id_author=${AUTHOR_ID}`)
       .then(res => {
-        const data = res.data
+        let data = res.data
         setTodos((data as any).data.map((todo: ITodoResponse): ITodoResponse => ({
           id: todo.id,
           status: todo.status,
@@ -20,5 +20,5 @@ export const useList = () => {
         }))
       )})
   }
-  return { todos, refetch }
+  return { todos, setTodos, refetch }
 }
