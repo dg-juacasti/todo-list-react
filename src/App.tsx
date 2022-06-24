@@ -2,8 +2,8 @@ import Typography from "./components/atoms/typography";
 import { COLORS } from "./shared/theme/colors";
 import TodoForm from "./components/organism/todo-form";
 import TodoList from "./components/organism/todo-list";
-import { ITodoResponse } from "./models";
-import { useEffect, useState } from "react";
+import { AppState, ITodoResponse } from "./models";
+import { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,20 +11,43 @@ import {
 } from "react-router-dom";
 import { useList } from "./hooks/useLists";
 import './App.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { setTodos, setTodosNoCompleted } from "./store/reducer/app";
+import { RootState } from "./store";
+import { useCreate } from "./hooks/useCreate";
+import { useEdit } from "./hooks/useEdit";
 
 const App = () => {
 
+  const dispatch = useDispatch()
+
   const { todos: todosList, refetch } = useList()
 
-  const [todos, setTodos] = useState<ITodoResponse[]>([])
+  const { create } = useCreate()
+  const { edit } = useEdit()
+
+  const { todos: todosState } = useSelector<RootState, AppState>((state) => state.app)
+
+  const createTodo = (todo: ITodoResponse) => {
+    create(todo)
+  }
+
+  const editTodo= (todo: ITodoResponse) => {
+    edit(todo)
+  }
+
+  const searchNoCompleted = () => {
+    dispatch(setTodosNoCompleted())
+    console.log('entraaa');
+  }
+
 
   useEffect(() => {
-    setTodos(todosList)
+    dispatch(setTodos(todosList))
   }, [todosList])
 
   useEffect(() => {
     refetch()
-    // eslint-disable-next-line
   }, [])
 
   return (
@@ -35,10 +58,13 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/">
-            <TodoList todoList={[...todos]}></TodoList>
+            <TodoList searchNoCompleted={searchNoCompleted} todoList={[...todosState]}></TodoList>
           </Route>
           <Route path="/create">
-            <TodoForm ></TodoForm>
+            <TodoForm create={createTodo}></TodoForm>
+          </Route>
+          <Route path="/edit">
+            <TodoForm edit={editTodo}></TodoForm>
           </Route>
         </Switch>
       </Router>
